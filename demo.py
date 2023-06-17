@@ -16,3 +16,23 @@ light_intensities = data[()]['light_intensities']
 M, N, W, H = data[()]['M'], data[()]['N'], data[()]['W'], data[()]['H']
 bg_color = data[()]['bg_color']
 focal = data[()]['focal']
+
+# Gouraud shader
+
+# ambient
+
+# diffusion
+
+# specular
+
+# combination
+
+# Phong shader
+
+# ambient
+
+# diffusion
+
+# specular
+
+# combination
