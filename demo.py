@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot
+from lightSource import *
 
 # Load and separate the data of the 3D image
 data = np.load('h3.npy', allow_pickle=True)
@@ -16,6 +17,12 @@ light_intensities = data[()]['light_intensities']
 M, N, W, H = data[()]['M'], data[()]['N'], data[()]['W'], data[()]['H']
 bg_color = data[()]['bg_color']
 focal = data[()]['focal']
+
+lights = []
+for i in range(len(light_positions)):
+    obj = PointLight(light_positions[i], light_intensities[i])
+    lights.append(obj)
+
 
 # Gouraud shader
 
