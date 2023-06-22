@@ -2,6 +2,7 @@ from calculate_normals import *
 from PerspectiveCamera import *
 from gouraud import *
 from phong import *
+from Imaging import rasterize
 
 def render_object(shader, focal, eye, lookat, up, bg_color, M, N, H, W, verts, vert_colors, faces, mat, n, lights, light_amb):
     # Calculate normal vectors
@@ -9,6 +10,9 @@ def render_object(shader, focal, eye, lookat, up, bg_color, M, N, H, W, verts, v
 
     # Calculate the projection
     p2d, depth = CameraLookingAt(focal, eye, lookat, up, p3d)
+
+    # Rasterize the 2D image
+    n2d = rasterize(p2d, Rows, Columns, H, W)
 
     # Paint the triangles
     if shader == "gouraud":
