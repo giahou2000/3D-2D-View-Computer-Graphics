@@ -25,14 +25,17 @@ def render_object(shader, focal, eye, lookat, up, bg_color, M, N, H, W, verts, v
     normals = calculate_normals(verts, faces)
 
     # Calculate the projection
-    p2d, depth = CameraLookingAt(focal, eye, lookat, up, p3d)
+    p2d, depth = CameraLookingAt(focal, eye, lookat, up, verts)
 
     # Rasterize the 2D image
-    n2d = rasterize(p2d, Rows, Columns, H, W)
+    n2d = rasterize(p2d, M, N, H, W)
+
+    # Create the canvas
+    img = np.full((M, N, 3), bg_color)
 
     # Paint the triangles
     if shader == "gouraud":
-        img = shade_gouraud(vertsp, vertsn, vertsc, bcoords, cam_pos, mat, lights, light_amb, X)
+        img = shade_gouraud(vertsp, vertsn, vertsc, bcoords, eye, mat, lights, light_amb, img)
     elif shader == "phong":
-        img = shade_phong(vertsp, vertsn, vertsc, bcoords, cam_pos, mat, lights, light_ambX)
+        img = shade_phong(vertsp, vertsn, vertsc, bcoords, eye, mat, lights, light_amb, img)
     return img
