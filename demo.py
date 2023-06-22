@@ -18,12 +18,11 @@ M, N, W, H = data[()]['M'], data[()]['N'], data[()]['W'], data[()]['H']
 bg_color = data[()]['bg_color']
 focal = data[()]['focal']
 
+# Create the light source objects list
 lights = []
 for i in range(len(light_positions)):
     obj = PointLight(light_positions[i], light_intensities[i])
     lights.append(obj)
-
-print(verts.shape)
 
 # Gouraud shader
 
