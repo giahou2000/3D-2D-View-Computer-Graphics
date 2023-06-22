@@ -23,6 +23,7 @@ for i in range(len(light_positions)):
     obj = PointLight(light_positions[i], light_intensities[i])
     lights.append(obj)
 
+print(verts.shape)
 
 # Gouraud shader
 
