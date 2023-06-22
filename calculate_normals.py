@@ -18,10 +18,12 @@ def calculate_normals(verts, faces):
     for i in range(verts.shape[1]):
         # Find the new faces
         # First find to which triangles the point exists
-        new_faces = np.logical_or.reduce((faces[0][:] == i, faces[1][:] == i, faces[2][:] == i))
+        new_faces = []
+        for j in range(faces.shape[1]):
+            new_faces.append = np.logical_or.reduce((faces[0][j] == i, faces[1][j] == i, faces[2][j] == i))
         # Then add all the vectors of the point vertical to each triangle
         n = np.sum(crosses[new_faces], axis=0)
-        # Finally normalize the vector
+        # Finally normalize the vector and store it
         normals.append(n / np.linalg.norm(n))
 
     return normals
