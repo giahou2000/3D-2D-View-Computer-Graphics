@@ -3,6 +3,7 @@ from PerspectiveCamera import *
 from gouraud import *
 from phong import *
 from Imaging import rasterize
+import statistics as stats
 
 def render_object(shader, focal, eye, lookat, up, bg_color, M, N, H, W, verts, vert_colors, faces, mat, n, lights, light_amb):
     """
@@ -33,9 +34,29 @@ def render_object(shader, focal, eye, lookat, up, bg_color, M, N, H, W, verts, v
     # Create the canvas
     img = np.full((M, N, 3), bg_color)
 
+    # Find the depths of the triangles
+    k = faces.shape[1]
+    tri_depths = np.zeros(k)
+    for i in range(k):
+        depths = [depth[faces[0][i]], depth[faces[1][i]], depth[faces[2][i]]]
+        tri_depths[i] = stats.mean(depths)
+
+    # Sort the depths and keep the indices' changes
+    indices = np.argsort(tri_depths)
+
     # Paint the triangles
     if shader == "gouraud":
-        img = shade_gouraud(vertsp, vertsn, vertsc, bcoords, eye, mat, lights, light_amb, img)
+        # paint the triangles
+        for i in reversed(range(k)):
+            tri_face = faces[indices[i]]
+            verts = [verts[tri_face[0]], verts[tri_face[1]], verts[tri_face[2]]]
+            color = [vert_colors[tri_face[0]], vert_colors[tri_face[1]], vert_colors[tri_face[2]]]
+            img = shade_gouraud(vertsp, vertsn, vertsc, bcoords, eye, mat, lights, light_amb, img)
     elif shader == "phong":
-        img = shade_phong(vertsp, vertsn, vertsc, bcoords, eye, mat, lights, light_amb, img)
+        # paint the triangles
+        for i in reversed(range(k)):
+            tri_face = faces[indices[i]]
+            verts = [verts[tri_face[0]], verts[tri_face[1]], verts[tri_face[2]]]
+            color = [vert_colors[tri_face[0]], vert_colors[tri_face[1]], vert_colors[tri_face[2]]]
+            img = shade_phong(vertsp, vertsn, vertsc, bcoords, eye, mat, lights, light_amb, img)
     return img
