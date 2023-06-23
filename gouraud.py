@@ -1,5 +1,6 @@
 import numpy as np
 import interpolate_vector as interpol
+from pointLight import light
 
 def shade_gouraud(vertsp, vertsn, vertsc, bcoords, cam_pos, mat, lights, light_amb, X):
     """
@@ -14,10 +15,10 @@ def shade_gouraud(vertsp, vertsn, vertsc, bcoords, cam_pos, mat, lights, light_a
     X = the partially painted canvas
     """
 
-
-
-
-
+    # Compute the actual color based on the lights for the 3 points
+    color = []
+    for i in range(3):
+        color.append(light(vertsp[i], vertsn[i], vertsc[i], cam_pos, mat, lights))
 
     # Gouraud painting procedure
     global right_color
@@ -59,16 +60,16 @@ def shade_gouraud(vertsp, vertsn, vertsc, bcoords, cam_pos, mat, lights, light_a
 
     # if the triangle is a single point
     if (xmin == xmax) and (ymin == ymax):
-        canvas[ymin][xmin] = vertsc[0]
+        canvas[ymin][xmin] = color[0]
 
     # if the triangle is a horizontal line
     elif ymin == ymax:
         for i in range(3):
             if verts2d[i][0] == xmin:
-                left_color = vertsc[i]
+                left_color = color[i]
                 left_peak = verts2d[i]
             elif verts2d[i][0] == xmax:
-                right_color = vertsc[i]
+                right_color = color[i]
                 right_peak = verts2d[i]
         for x in range(xmin, xmax + 1):
             canvas[ymin][x] = interpol.interpolate_vectors(left_peak, right_peak, [x, ymin], left_color, right_color)
@@ -77,10 +78,10 @@ def shade_gouraud(vertsp, vertsn, vertsc, bcoords, cam_pos, mat, lights, light_a
     elif xmin == xmax:
         for i in range(3):
             if verts2d[i][1] == ymax:
-                upper_color = vertsc[i]
+                upper_color = color[i]
                 up_peak = verts2d[i]
             elif verts2d[i][1] == ymin:
-                lower_color = vertsc[i]
+                lower_color = color[i]
                 down_peak = verts2d[i]
         for y in range(ymin, ymax + 1):
             canvas[y][xmin] = interpol.interpolate_vectors(down_peak, up_peak, [xmin, y], lower_color, upper_color)
@@ -95,11 +96,11 @@ def shade_gouraud(vertsp, vertsn, vertsc, bcoords, cam_pos, mat, lights, light_a
         # find the right color for the right peak
         for i in range(3):
             if (verts2d[i][0] == activ_peaks[0][0]) and (verts2d[i][1] == ymin):
-                left_color = vertsc[i]
+                left_color = color[i]
             elif (verts2d[i][0] == activ_peaks[1][0]) and (verts2d[i][1] == ymin):
-                right_color = vertsc[i]
+                right_color = color[i]
             else:
-                upper_color = vertsc[i]
+                upper_color = color[i]
         # paint for each point
         xsmall = activ_peaks[0][0]
         xbig = activ_peaks[1][0]
@@ -121,11 +122,11 @@ def shade_gouraud(vertsp, vertsn, vertsc, bcoords, cam_pos, mat, lights, light_a
         # find the right color for the right peak
         for i in range(3):
             if (verts2d[i][0] == peaks_y_max[0][0]) and (verts2d[i][1] == ymax):
-                left_color = vertsc[i]
+                left_color = color[i]
             elif (verts2d[i][0] == peaks_y_max[1][0]) and (verts2d[i][1] == ymax):
-                right_color = vertsc[i]
+                right_color = color[i]
             else:
-                down_color = vertsc[i]
+                down_color = color[i]
                 xsmall = verts2d[i][0]
         # paint for each point
         xsmall = activ_peaks[0][0]
@@ -154,11 +155,11 @@ def shade_gouraud(vertsp, vertsn, vertsc, bcoords, cam_pos, mat, lights, light_a
         # compute the colors
         for i in range(3):
             if (verts2d[i][1] == ymax):
-                upper_color = vertsc[i]
+                upper_color = color[i]
             elif (verts2d[i][1] == ymin):
-                down_color = vertsc[i]
+                down_color = color[i]
             else:
-                middle_color = vertsc[i]
+                middle_color = color[i]
         new_peak = [x_new, middle_peak[1]]
         # create the new triangles after the cut
         vertsp1 = np.array([peaks_y_max[0], middle_peak, new_peak])
