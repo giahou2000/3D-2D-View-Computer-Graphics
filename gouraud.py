@@ -18,9 +18,7 @@ def shade_gouraud(vertsp, vertsn, vertsc, bcoords, cam_pos, mat, lights, light_a
     # Compute the actual color based on the lights for the 3 points
     color = []
     for i in range(3):
-        color.append(light(vertsp[i], vertsn[i], vertsc[i], cam_pos, mat, lights, light_amb))
-
-    print(color)
+        color.append(light(bcoords, vertsn[i], vertsc[i], cam_pos, mat, lights, light_amb))
 
     # Gouraud painting procedure
     global right_color
@@ -51,18 +49,21 @@ def shade_gouraud(vertsp, vertsn, vertsc, bcoords, cam_pos, mat, lights, light_a
     middle_peak = []
     for i in range(3):
         # store the active peaks for ymin
-        if verts2d[i][1] == ymin:
+        if int(verts2d[i][1]) == ymin:
             activ_peaks.append(verts2d[i])
         # store the peaks for ymax
-        elif verts2d[i][1] == ymax:
+        elif int(verts2d[i][1]) == ymax:
             peaks_y_max.append(verts2d[i])
         else:
             middle_peak = verts2d[i]
-
+    
+    activ_peaks = np.array(activ_peaks)
+    peaks_y_max = np.array(peaks_y_max)
+    middle_peak = np.array(middle_peak)
 
     # if the triangle is a single point
     if (xmin == xmax) and (ymin == ymax):
-        canvas[ymin][xmin] = color[0]
+        X[ymin][xmin] = color[0]
 
     # if the triangle is a horizontal line
     elif ymin == ymax:
@@ -74,7 +75,7 @@ def shade_gouraud(vertsp, vertsn, vertsc, bcoords, cam_pos, mat, lights, light_a
                 right_color = color[i]
                 right_peak = verts2d[i]
         for x in range(xmin, xmax + 1):
-            canvas[ymin][x] = interpol.interpolate_vectors(left_peak, right_peak, [x, ymin], left_color, right_color)
+            X[ymin][x] = interpol.interpolate_vectors(left_peak, right_peak, [x, ymin], left_color, right_color)
 
     # if the triangle is a vertical line
     elif xmin == xmax:
@@ -86,7 +87,7 @@ def shade_gouraud(vertsp, vertsn, vertsc, bcoords, cam_pos, mat, lights, light_a
                 lower_color = color[i]
                 down_peak = verts2d[i]
         for y in range(ymin, ymax + 1):
-            canvas[y][xmin] = interpol.interpolate_vectors(down_peak, up_peak, [xmin, y], lower_color, upper_color)
+            X[y][xmin] = interpol.interpolate_vectors(down_peak, up_peak, [xmin, y], lower_color, upper_color)
 
     # if the triangle has a lower horizontal edge
     elif len(activ_peaks) == 2:
@@ -110,14 +111,14 @@ def shade_gouraud(vertsp, vertsn, vertsc, bcoords, cam_pos, mat, lights, light_a
             color1 = interpol.interpolate_vectors(activ_peaks[0], peaks_y_max[0], [xsmall, y], left_color, upper_color)
             color2 = interpol.interpolate_vectors(activ_peaks[1], peaks_y_max[0], [xbig, y], right_color, upper_color)
             for x in range(int(xsmall), int(xbig + 1)):
-                canvas[y][x] = interpol.interpolate_vectors([xsmall, y], [xbig, y], [x, y], color1, color2)
+                X[y][x] = interpol.interpolate_vectors([xsmall, y], [xbig, y], [x, y], color1, color2)
             xsmall = (y + 1 - ymin) * left_slope + activ_peaks[0][0]
             xbig = (y + 1 - ymin) * right_slope + activ_peaks[1][0]
 
     # if the triangle has an upper horizontal edge
     elif len(peaks_y_max) == 2:
         # sort to left and right lower peaks
-        peaks_y_max.sort(key=lambda ap: ap[0])
+        peaks_y_max = sorted(peaks_y_max, key=lambda ap: ap[0])
         # compute the 2 slopes of the acmes (inverse slopes to get rid of division by zero)
         left_slope = (peaks_y_max[0][0] - activ_peaks[0][0])/(peaks_y_max[0][1] - activ_peaks[0][1])
         right_slope = (activ_peaks[0][0] - peaks_y_max[1][0])/(activ_peaks[0][1] - peaks_y_max[1][1])
@@ -137,7 +138,7 @@ def shade_gouraud(vertsp, vertsn, vertsc, bcoords, cam_pos, mat, lights, light_a
             color1 = interpol.interpolate_vectors(peaks_y_max[0], activ_peaks[0], [xsmall, y], left_color, down_color)
             color2 = interpol.interpolate_vectors(peaks_y_max[1], activ_peaks[0], [xbig, y], right_color, down_color)
             for x in range(int(xsmall), int(xbig + 1)):
-                canvas[y][x] = interpol.interpolate_vectors([xsmall, y], [xbig, y], [x, y], color1, color2)
+                X[y][x] = interpol.interpolate_vectors([xsmall, y], [xbig, y], [x, y], color1, color2)
             xsmall = (y + 1 - ymax) * left_slope + peaks_y_max[0][0]
             xbig = (y + 1 - ymax) * right_slope + peaks_y_max[1][0]
 
@@ -164,14 +165,15 @@ def shade_gouraud(vertsp, vertsn, vertsc, bcoords, cam_pos, mat, lights, light_a
                 middle_color = color[i]
         new_peak = [x_new, middle_peak[1]]
         # create the new triangles after the cut
+        print(peaks_y_max[0], middle_peak, new_peak)
         vertsp1 = np.array([peaks_y_max[0], middle_peak, new_peak])
         vertsp2 = np.array([middle_peak, new_peak, activ_peaks[0]])
         new_color = interpol.interpolate_vectors(peaks_y_max[0], activ_peaks[0], new_peak, upper_color, down_color)
         colors1 = [upper_color, middle_color, new_color]
         colors2 = [middle_color, new_color, down_color]
         # fill first triangle
-        canvas = shade_gouraud(vertsp1, vertsn, colors1, bcoords, cam_pos, mat, lights, light_amb, X)
+        X = shade_gouraud(vertsp1, vertsn, colors1, bcoords, cam_pos, mat, lights, light_amb, X)
         # fill second triangle
-        canvas = shade_gouraud(vertsp2, vertsn, colors2, bcoords, cam_pos, mat, lights, light_amb, X)
+        X = shade_gouraud(vertsp2, vertsn, colors2, bcoords, cam_pos, mat, lights, light_amb, X)
 
     return X
