@@ -5,7 +5,7 @@ from phong import *
 from Imaging import rasterize
 import statistics as stats
 
-def render_object(shader, focal, eye, lookat, up, bg_color, M, N, H, W, verts, vert_colors, faces, mat, n, lights, light_amb):
+def render_object(shader, focal, eye, lookat, up, bg_color, M, N, H, W, verts, vert_colors, faces, mat, lights, light_amb):
     """
     % shader = the string that defines what shading method is selected
     % focal = the distance of the frame from the camera center
@@ -49,14 +49,18 @@ def render_object(shader, focal, eye, lookat, up, bg_color, M, N, H, W, verts, v
         # paint the triangles
         for i in reversed(range(k)):
             tri_face = faces[indices[i]]
-            verts = [verts[tri_face[0]], verts[tri_face[1]], verts[tri_face[2]]]
-            color = [vert_colors[tri_face[0]], vert_colors[tri_face[1]], vert_colors[tri_face[2]]]
+            vertsp = [verts[tri_face[0]], verts[tri_face[1]], verts[tri_face[2]]]
+            vertsn = [normals[tri_face[0]], normals[tri_face[1]], normals[tri_face[2]]]
+            vertsc = [vert_colors[tri_face[0]], vert_colors[tri_face[1]], vert_colors[tri_face[2]]]
+            bcoords = np.mean(vertsp, axis=0)
             img = shade_gouraud(vertsp, vertsn, vertsc, bcoords, eye, mat, lights, light_amb, img)
     elif shader == "phong":
         # paint the triangles
         for i in reversed(range(k)):
             tri_face = faces[indices[i]]
-            verts = [verts[tri_face[0]], verts[tri_face[1]], verts[tri_face[2]]]
-            color = [vert_colors[tri_face[0]], vert_colors[tri_face[1]], vert_colors[tri_face[2]]]
+            vertsp = [verts[tri_face[0]], verts[tri_face[1]], verts[tri_face[2]]]
+            vertsn = [normals[tri_face[0]], normals[tri_face[1]], normals[tri_face[2]]]
+            vertsc = [vert_colors[tri_face[0]], vert_colors[tri_face[1]], vert_colors[tri_face[2]]]
+            bcoords = np.mean(vertsp, axis=0)
             img = shade_phong(vertsp, vertsn, vertsc, bcoords, eye, mat, lights, light_amb, img)
     return img
