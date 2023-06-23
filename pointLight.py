@@ -11,9 +11,7 @@ def light(point, normal, vcolor, cam_pos, mat, lights, light_amb):
     """
 
     # Ambient light component
-    ambiance = []
-    for i in range(len(lights)):
-        ambiance.append(mat.ka * light_amb)
+    ambiance = mat.ka * light_amb
 
     # Diffuse light component
     diffusions = []
@@ -36,5 +34,5 @@ def light(point, normal, vcolor, cam_pos, mat, lights, light_amb):
         speculars.append(lights[i].intensity * fatt * mat.ks * (np.dot((2 * normal * dotNL - L), V) ^ mat.n))
 
     # Combination
-    I = vcolor + np.sum(ambiance) + np.sum(diffusions) + np.sum(speculars)
+    I = vcolor + ambiance + np.sum(diffusions) + np.sum(speculars)
     return I

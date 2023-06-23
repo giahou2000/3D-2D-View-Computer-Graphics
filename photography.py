@@ -48,6 +48,7 @@ def render_object(shader, focal, eye, lookat, up, bg_color, M, N, H, W, verts, v
     if shader == "gouraud":
         faces = np.transpose(faces)
         verts = np.transpose(verts)
+        vert_colors = np.transpose(vert_colors)
         # paint the triangles
         for i in reversed(range(k)):
             tri_face = faces[indices[i]]
@@ -61,6 +62,7 @@ def render_object(shader, focal, eye, lookat, up, bg_color, M, N, H, W, verts, v
         for i in reversed(range(k)):
             faces = np.transpose(faces)
             verts = np.transpose(verts)
+            vert_colors = np.transpose(vert_colors)
             tri_face = faces[indices[i]]
             vertsp = [verts[tri_face[0]], verts[tri_face[1]], verts[tri_face[2]]]
             vertsn = [normals[tri_face[0]], normals[tri_face[1]], normals[tri_face[2]]]
