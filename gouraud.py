@@ -20,6 +20,8 @@ def shade_gouraud(vertsp, vertsn, vertsc, bcoords, cam_pos, mat, lights, light_a
     for i in range(3):
         color.append(light(vertsp[i], vertsn[i], vertsc[i], cam_pos, mat, lights, light_amb))
 
+    print(color)
+
     # Gouraud painting procedure
     global right_color
 
