@@ -9,6 +9,8 @@ def ChangeCoordinateSystem(cp, R, c0):
     It converts (cp -> dp) the coordinates of the points to a different coordinate system
     
     """
+    # We get the transpose for the method to work
+    cp = np.transpose(cp)
 
     # Compute the rotation
     temp = []
