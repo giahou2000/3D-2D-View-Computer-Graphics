@@ -42,26 +42,26 @@ matplotlib.pyplot.imshow(img)
 matplotlib.pyplot.savefig('gouraud_ambiance.png')
 matplotlib.pyplot.show()
 
-# # diffusion
-# mat = PhongMaterial(0, kd, 0, n)
-# img = render_object(shader, focal, cam_eye, cam_lookat, cam_up, bg_color, M, N, H, W, verts, vertex_colors, face_indices, mat, lights, light_amb)
-# matplotlib.pyplot.imshow(img)
-# matplotlib.pyplot.savefig('gouraud_diffusion.png')
-# matplotlib.pyplot.show()
+# diffusion
+mat = PhongMaterial(0, kd, 0, n)
+img = render_object(shader, focal, cam_eye, cam_lookat, cam_up, bg_color, M, N, H, W, verts, vertex_colors, face_indices, mat, lights, light_amb)
+matplotlib.pyplot.imshow(img)
+matplotlib.pyplot.savefig('gouraud_diffusion.png')
+matplotlib.pyplot.show()
 
-# # specular
-# mat = PhongMaterial(0, 0, ks, n)
-# img = render_object(shader, focal, cam_eye, cam_lookat, cam_up, bg_color, M, N, H, W, verts, vertex_colors, face_indices, mat, lights, light_amb)
-# matplotlib.pyplot.imshow(img)
-# matplotlib.pyplot.savefig('gouraud_specular.png')
-# matplotlib.pyplot.show()
+# specular
+mat = PhongMaterial(0, 0, ks, n)
+img = render_object(shader, focal, cam_eye, cam_lookat, cam_up, bg_color, M, N, H, W, verts, vertex_colors, face_indices, mat, lights, light_amb)
+matplotlib.pyplot.imshow(img)
+matplotlib.pyplot.savefig('gouraud_specular.png')
+matplotlib.pyplot.show()
 
-# # combination
-# mat = PhongMaterial(ka, kd, ks, n)
-# img = render_object(shader, focal, cam_eye, cam_lookat, cam_up, bg_color, M, N, H, W, verts, vertex_colors, face_indices, mat, lights, light_amb)
-# matplotlib.pyplot.imshow(img)
-# matplotlib.pyplot.savefig('gouraud_combination.png')
-# matplotlib.pyplot.show()
+# combination
+mat = PhongMaterial(ka, kd, ks, n)
+img = render_object(shader, focal, cam_eye, cam_lookat, cam_up, bg_color, M, N, H, W, verts, vertex_colors, face_indices, mat, lights, light_amb)
+matplotlib.pyplot.imshow(img)
+matplotlib.pyplot.savefig('gouraud_combination.png')
+matplotlib.pyplot.show()
 
 
 # # Phong shader

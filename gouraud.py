@@ -92,7 +92,7 @@ def shade_gouraud(vertsp, vertsn, vertsc, bcoords, cam_pos, mat, lights, light_a
     # if the triangle has a lower horizontal edge
     elif len(activ_peaks) == 2:
         # sort to left and right lower peaks
-        activ_peaks.sort(key=lambda ap: ap[0])
+        activ_peaks = sorted(activ_peaks, key=lambda ap: ap[0])
         # compute the 2 slopes of the edges (inverse slopes to get rid of division by zero and simplify things)
         left_slope = (peaks_y_max[0][0] - activ_peaks[0][0])/(peaks_y_max[0][1] - activ_peaks[0][1])
         right_slope = (activ_peaks[1][0] - peaks_y_max[0][0])/(activ_peaks[1][1] - peaks_y_max[0][1])
@@ -165,7 +165,6 @@ def shade_gouraud(vertsp, vertsn, vertsc, bcoords, cam_pos, mat, lights, light_a
                 middle_color = color[i]
         new_peak = [x_new, middle_peak[1]]
         # create the new triangles after the cut
-        print(peaks_y_max[0], middle_peak, new_peak)
         vertsp1 = np.array([peaks_y_max[0], middle_peak, new_peak])
         vertsp2 = np.array([middle_peak, new_peak, activ_peaks[0]])
         new_color = interpol.interpolate_vectors(peaks_y_max[0], activ_peaks[0], new_peak, upper_color, down_color)
