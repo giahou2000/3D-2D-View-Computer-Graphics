@@ -35,12 +35,12 @@ print('triangles')
 # # Gouraud shader
 shader = "gouraud"
 
-# # ambiance
-# mat = PhongMaterial(ka, 0, 0, n)
-# img = render_object(shader, focal, cam_eye, cam_lookat, cam_up, bg_color, M, N, H, W, verts, vertex_colors, face_indices, mat, lights, light_amb)
-# matplotlib.pyplot.imshow(img)
-# matplotlib.pyplot.savefig('gouraud_ambiance.png')
-# matplotlib.pyplot.show()
+# ambiance
+mat = PhongMaterial(ka, 0, 0, n)
+img = render_object(shader, focal, cam_eye, cam_lookat, cam_up, bg_color, M, N, H, W, verts, vertex_colors, face_indices, mat, lights, light_amb)
+matplotlib.pyplot.imshow(img)
+matplotlib.pyplot.savefig('gouraud_ambiance.png')
+matplotlib.pyplot.show()
 
 # # diffusion
 # mat = PhongMaterial(0, kd, 0, n)
