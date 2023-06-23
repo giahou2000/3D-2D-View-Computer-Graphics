@@ -18,7 +18,7 @@ def shade_gouraud(vertsp, vertsn, vertsc, bcoords, cam_pos, mat, lights, light_a
     # Compute the actual color based on the lights for the 3 points
     color = []
     for i in range(3):
-        color.append(light(vertsp[i], vertsn[i], vertsc[i], cam_pos, mat, lights))
+        color.append(light(vertsp[i], vertsn[i], vertsc[i], cam_pos, mat, lights, light_amb))
 
     # Gouraud painting procedure
     global right_color

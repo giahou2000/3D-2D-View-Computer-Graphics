@@ -1,6 +1,6 @@
 import numpy as np
 
-def light(point, normal, vcolor, cam_pos, mat, lights):
+def light(point, normal, vcolor, cam_pos, mat, lights, light_amb):
     """
     point: the 3d coordinates of the point on which the light arrives
     normal: coordinates of the normal vector of the surface at the point
@@ -13,7 +13,7 @@ def light(point, normal, vcolor, cam_pos, mat, lights):
     # Ambient light component
     ambiance = []
     for i in range(len(lights)):
-        ambiance.append(mat.ka * lights[0].intensity)
+        ambiance.append(mat.ka * light_amb)
 
     # Diffuse light component
     diffusions = []
