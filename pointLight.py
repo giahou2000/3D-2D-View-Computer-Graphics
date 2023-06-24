@@ -16,7 +16,7 @@ def light(point, normal, vcolor, cam_pos, mat, lights, light_amb):
     # Diffuse light component
     diffusions = []
     for i in range(len(lights)):
-        # Compute the L vector that is parallel to light beams
+        # Compute the L vector that is parallel to incoming light beams
         L = lights[i].pos - point
         # Compute the fatt attenuation coefficient
         fatt = 1/np.linalg.norm(L)
@@ -26,7 +26,6 @@ def light(point, normal, vcolor, cam_pos, mat, lights, light_amb):
     # Specular light component
     speculars = []
     V = (cam_pos - point) / np.linalg.norm(cam_pos - point)
-    dotNL = np.dot(normal, L)
     for i in range(len(lights)):
         L = (lights[i].pos - point)
         # Compute the fatt attenuation coefficient
@@ -36,5 +35,5 @@ def light(point, normal, vcolor, cam_pos, mat, lights, light_amb):
         speculars.append(lights[i].intensity * min(1, fatt) * mat.ks * (np.dot((2 * normal * dotNL - L), V) ** mat.n))
 
     # Combination
-    I = vcolor + ambiance + np.sum(diffusions) + np.sum(speculars)
+    I = vcolor + ambiance + np.sum(diffusions, axis=0) + np.sum(speculars, axis=0)
     return I
