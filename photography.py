@@ -23,12 +23,15 @@ def render_object(shader, focal, eye, lookat, up, bg_color, M, N, H, W, verts, v
     light_amb = the ambiance
     """
     # Calculate normal vectors
+    print("calculating normals...")
     normals = calculate_normals(verts, faces)
 
     # Calculate the projection
+    print("calculating projection...")
     p2d, depth = CameraLookingAt(focal, eye, lookat, up, verts)
 
     # Rasterize the 2D image
+    print("rasterizing image...")
     n2d = rasterize(p2d, M, N, H, W)
 
     # Create the canvas
@@ -45,6 +48,7 @@ def render_object(shader, focal, eye, lookat, up, bg_color, M, N, H, W, verts, v
     indices = np.argsort(tri_depths)
 
     # Paint the triangles
+    print("painting triangles...")
     if shader == "gouraud":
         faces = np.transpose(faces)
         verts = np.transpose(verts)
