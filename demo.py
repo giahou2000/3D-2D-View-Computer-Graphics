@@ -36,8 +36,6 @@ print('triangles')
 print("____Gouraud procedures____")
 shader = "gouraud"
 
-print(ka)
-
 # ambiance
 print("____Ambiance____")
 mat = PhongMaterial(ka, 0, 0, n)
