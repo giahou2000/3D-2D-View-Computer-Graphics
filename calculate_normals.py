@@ -2,8 +2,8 @@ import numpy as np
 
 def calculate_normals(verts, faces):
     """
-    verts: object vertex coordinates
-    faces: for each triangle the indices of the vertices of the verts matrix
+    verts: 3D object vertex coordinates
+    faces: for each triangle the indices of the vertices for the verts matrix
     """
     # For each triangle compute the cross products/vertical vectors to the surfaces
     crosses = []
@@ -22,9 +22,9 @@ def calculate_normals(verts, faces):
         vert_faces = []
         for j in range(faces.shape[1]):
             vert_faces.append(np.logical_or.reduce((faces[0][j] == i, faces[1][j] == i, faces[2][j] == i)))
-        # Then add all the vectors of the point vertical to each triangle
+        # Then add all the vertical vectors of the point
         vert_faces = np.array(vert_faces)
-        n = np.sum(crosses[vert_faces], axis=0)
+        n = np.mean(crosses[vert_faces], axis=0)
         # Finally normalize the vector and store it
         normals.append(n / np.linalg.norm(n))
 
