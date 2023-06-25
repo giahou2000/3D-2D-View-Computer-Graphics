@@ -8,6 +8,7 @@ def light(point, normal, vcolor, cam_pos, mat, lights, light_amb):
     cam_pos: coordinates of the camera
     mat: PhongMaterial object
     lights: list of PointLight objects
+    light_amb: ambiance vector
     """
 
     # Ambient light component
