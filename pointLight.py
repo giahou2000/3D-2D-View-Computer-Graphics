@@ -34,5 +34,5 @@ def light(point, normal, vcolor, cam_pos, mat, lights, light_amb):
         speculars.append(lights[i].intensity * mat.ks * (np.dot((2 * normal * dotNL - L), V) ** mat.n))
 
     # Combination
-    I = ambiance + np.sum(diffusions, axis=0) + np.sum(speculars, axis=0)
+    I = vcolor + ambiance + np.sum(diffusions, axis=0) + np.sum(speculars, axis=0)
     return I
