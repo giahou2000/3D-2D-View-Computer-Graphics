@@ -22,6 +22,7 @@ def shade_phong(vertsp, vertsn, vertsc, bcoords, cam_pos, mat, lights, light_amb
 
     # Gouraud painting procedure
     global right_color
+    global right_norm
 
     # find the minimums and maximums for each acme
     # we define acmes by their number (0, 1, 2)

@@ -63,15 +63,16 @@ def render_object(shader, focal, eye, lookat, up, bg_color, M, N, H, W, verts, v
             bcoords = np.mean(gravity, axis=0)
             img = shade_gouraud(vertsp, vertsn, vertsc, bcoords, eye, mat, lights, light_amb, img)
     elif shader == "phong":
+        faces = np.transpose(faces)
+        verts = np.transpose(verts)
+        vert_colors = np.transpose(vert_colors)
         # paint the triangles
         for i in reversed(range(k)):
-            faces = np.transpose(faces)
-            verts = np.transpose(verts)
-            vert_colors = np.transpose(vert_colors)
             tri_face = faces[indices[i]]
             vertsp = [n2d[tri_face[0]], n2d[tri_face[1]], n2d[tri_face[2]]]
             vertsn = [normals[tri_face[0]], normals[tri_face[1]], normals[tri_face[2]]]
             vertsc = [vert_colors[tri_face[0]], vert_colors[tri_face[1]], vert_colors[tri_face[2]]]
-            bcoords = np.mean(vertsp, axis=0)
+            gravity = [verts[tri_face[0]], verts[tri_face[1]], verts[tri_face[2]]]
+            bcoords = np.mean(gravity, axis=0)
             img = shade_phong(vertsp, vertsn, vertsc, bcoords, eye, mat, lights, light_amb, img)
     return img
