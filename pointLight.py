@@ -31,7 +31,7 @@ def light(point, normal, vcolor, cam_pos, mat, lights, light_amb):
         # Compute the fatt attenuation coefficient
         L = L / np.linalg.norm(L)
         dotNL = np.dot(normal, L)
-        speculars.append(lights[i].intensity * mat.ks * (np.dot((2 * normal * dotNL - L), V) ** mat.n))
+        speculars.append(lights[i].intensity * mat.ks * ((np.dot((2 * normal * dotNL - L), V)) ** mat.n))
 
     # Combination
     I = vcolor + ambiance + np.sum(diffusions, axis=0) + np.sum(speculars, axis=0)
