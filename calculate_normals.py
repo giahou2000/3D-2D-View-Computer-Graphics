@@ -24,7 +24,7 @@ def calculate_normals(verts, faces):
             vert_faces.append(np.logical_or.reduce((faces[0][j] == i, faces[1][j] == i, faces[2][j] == i)))
         # Then add all the vertical vectors of the point
         vert_faces = np.array(vert_faces)
-        n = np.mean(crosses[vert_faces], axis=0)
+        n = np.sum(crosses[vert_faces], axis=0)
         # Finally normalize the vector and store it
         normals.append(n / np.linalg.norm(n))
 

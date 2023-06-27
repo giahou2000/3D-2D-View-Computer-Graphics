@@ -52,7 +52,7 @@ print("____Diffusion____")
 mat = PhongMaterial(0, kd, 0, n)
 img = render_object(shader, focal, cam_eye, cam_lookat, cam_up, bg_color, M, N, H, W, verts, vertex_colors, face_indices, mat, lights, light_ambiance)
 matplotlib.pyplot.imshow(img)
-matplotlib.pyplot.savefig('gouraud_diffusion.png')
+# matplotlib.pyplot.savefig('gouraud_diffusion.png')
 matplotlib.pyplot.show()
 
 # specular
@@ -60,7 +60,7 @@ print("____Specular____")
 mat = PhongMaterial(0, 0, ks, n)
 img = render_object(shader, focal, cam_eye, cam_lookat, cam_up, bg_color, M, N, H, W, verts, vertex_colors, face_indices, mat, lights, light_ambiance)
 matplotlib.pyplot.imshow(img)
-matplotlib.pyplot.savefig('gouraud_specular.png')
+# matplotlib.pyplot.savefig('gouraud_specular.png')
 matplotlib.pyplot.show()
 
 # combination
@@ -68,7 +68,7 @@ print("____Ambiance + Diffusion + Specular____")
 mat = PhongMaterial(ka, kd, ks, n)
 img = render_object(shader, focal, cam_eye, cam_lookat, cam_up, bg_color, M, N, H, W, verts, vertex_colors, face_indices, mat, lights, light_ambiance)
 matplotlib.pyplot.imshow(img)
-matplotlib.pyplot.savefig('gouraud_combination.png')
+# matplotlib.pyplot.savefig('gouraud_combination.png')
 matplotlib.pyplot.show()
 
 
@@ -80,7 +80,7 @@ print("____Ambiance____")
 mat = PhongMaterial(ka, 0, 0, n)
 img = render_object(shader, focal, cam_eye, cam_lookat, cam_up, bg_color, M, N, H, W, verts, vertex_colors, face_indices, mat, lights, light_ambiance)
 matplotlib.pyplot.imshow(img)
-matplotlib.pyplot.savefig('phong_ambiance.png')
+# matplotlib.pyplot.savefig('phong_ambiance.png')
 matplotlib.pyplot.show()
 
 # diffusion
@@ -88,7 +88,7 @@ print("____Diffusion____")
 mat = PhongMaterial(0, kd, 0, n)
 img = render_object(shader, focal, cam_eye, cam_lookat, cam_up, bg_color, M, N, H, W, verts, vertex_colors, face_indices, mat, lights, light_ambiance)
 matplotlib.pyplot.imshow(img)
-matplotlib.pyplot.savefig('phong_diffusion.png')
+# matplotlib.pyplot.savefig('phong_diffusion.png')
 matplotlib.pyplot.show()
 
 # specular
@@ -96,7 +96,7 @@ print("____Specular____")
 mat = PhongMaterial(0, 0, ks, n)
 img = render_object(shader, focal, cam_eye, cam_lookat, cam_up, bg_color, M, N, H, W, verts, vertex_colors, face_indices, mat, lights, light_ambiance)
 matplotlib.pyplot.imshow(img)
-matplotlib.pyplot.savefig('phong_specular.png')
+# matplotlib.pyplot.savefig('phong_specular.png')
 matplotlib.pyplot.show()
 
 # combination
@@ -104,5 +104,5 @@ print("____Ambiance + Diffusion + Specular____")
 mat = PhongMaterial(ka, kd, ks, n)
 img = render_object(shader, focal, cam_eye, cam_lookat, cam_up, bg_color, M, N, H, W, verts, vertex_colors, face_indices, mat, lights, light_ambiance)
 matplotlib.pyplot.imshow(img)
-matplotlib.pyplot.savefig('phong_combination.png')
+# matplotlib.pyplot.savefig('phong_combination.png')
 matplotlib.pyplot.show()
